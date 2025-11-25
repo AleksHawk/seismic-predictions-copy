@@ -103,7 +103,7 @@ function downloadImage() {
       link.href = canvas.toDataURL();
       link.click();
     }
-    fufunction shareOnTwitter() {
+    function shareOnTwitter() {
   const fortune = document.getElementById('fortune-text').textContent;
   const text = `Sometimes all it takes is one little sign to know you're on the right track.\nMy Seismic Fortune told me something very accurate today:\n${fortune}\n\nSee what your card says: https://alekshawk.github.io/seismic-predictions/\nCreator @AleksYastreb made this with love especially for the @SeismicSys community`;
   const url = 'https://twitter.com/intent/post?text=' + encodeURIComponent(text);
