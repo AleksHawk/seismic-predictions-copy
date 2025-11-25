@@ -5,326 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Seismic Fortune Cards</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: radial-gradient(circle at top, #2b0a14, #11060a, #070207);
-      color: #fff;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
-
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 30px 20px;
-      border-bottom: 1px solid rgba(255, 127, 167, 0.2);
-    }
-
-    .logo {
-      width: 50px;
-      height: 50px;
-      margin-right: 15px;
-    }
-
-    h1 {
-      text-align: center;
-      margin: 0;
-      font-size: 32px;
-      font-weight: 700;
-      color: #ff8fb8;
-    }
-
-    .container {
-      display: flex;
-      gap: 30px;
-      padding: 40px 20px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .cards-section {
-      flex: 1;
-    }
-
-    .cards-container {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-      margin-top: 50px;
-      flex-wrap: wrap;
-      padding: 0 20px;
-    }
-
-    .card {
-      width: 160px;
-      height: 240px;
-      border: 2px solid #ff7aa7;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 48px;
-      font-weight: bold;
-      color: #ff7aa7;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 20px rgba(255, 122, 167, 0.3);
-      background: rgba(157, 107, 138, 0.1);
-      position: relative;
-    }
-
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 0 40px rgba(255, 122, 167, 0.6);
-      background: rgba(157, 107, 138, 0.2);
-    }
-
-    .card-number {
-      position: absolute;
-      font-size: 60px;
-      opacity: 0.5;
-    }
-
-    .card-stone {
-      position: absolute;
-      font-size: 70px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .card:hover .card-stone {
-      opacity: 0.7;
-    }
-
-    #fortune-box {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(43, 10, 20, 0.95);
-      border: 2px solid #ff7aa7;
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 500px;
-      text-align: center;
-      display: none;
-      z-index: 1000;
-      box-shadow: 0 0 60px rgba(255, 122, 167, 0.4);
-    }
-
-    #fortune-box.show {
-      display: block;
-      animation: slideIn 0.3s ease;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translate(-50%, -40%);
-      }
-      to {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-      }
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.7);
-      display: none;
-      z-index: 999;
-    }
-
-    .overlay.show {
-      display: block;
-    }
-
-    h2 {
-      margin-top: 0;
-      color: #ff8fb8;
-      font-size: 24px;
-    }
-
-    #fortune-text {
-      font-size: 18px;
-      color: #fff;
-      margin: 20px 0;
-      line-height: 1.6;
-      min-height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    button {
-      background: linear-gradient(135deg, #ff7aa7, #ff2f75);
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      margin-top: 15px;
-    }
-
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(255, 47, 117, 0.5);
-    }
-
-    .rules-sidebar {
-      width: 300px;
-      background: rgba(157, 107, 138, 0.1);
-      border: 1px solid rgba(255, 122, 167, 0.3);
-      border-radius: 15px;
-      padding: 25px;
-      height: fit-content;
-      position: sticky;
-      top: 40px;
-    }
-
-    .rules-sidebar h3 {
-      color: #ff8fb8;
-      margin-top: 0;
-      font-size: 18px;
-      border-bottom: 2px solid #ff7aa7;
-      padding-bottom: 10px;
-    }
-
-    .rules-list {
-      list-style: none;
-      padding: 0;
-      margin: 15px 0 0 0;
-    }
-
-    .rules-list li {
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255, 122, 167, 0.2);
-      font-size: 13px;
-      line-height: 1.5;
-      color: #ddd;
-    }
-
-    .rules-list li:last-child {
-      border-bottom: none;
-    }
-
-    @media (max-width: 1024px) {
-      .container {
-        flex-direction: column;
-      }
-      .rules-sidebar {
-        width: 100%;
-        position: static;
-      }
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: radial-gradient(circle at top, #2b0a14, #11060a, #070207); color: #fff; overflow-x: hidden; min-height: 100vh; padding: 20px; }
+    h1 { text-align: center; margin-top: 40px; font-size: 32px; font-weight: 700; color: #ff8fb8; margin-bottom: 50px; }
+    .cards-container { display: flex; justify-content: center; gap: 18px; margin-top: 50px; flex-wrap: wrap; }
+    .card { width: 160px; height: 240px; border: 2px solid #ff7aa7; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: bold; color: #ff7aa7; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 20px rgba(255, 122, 167, 0.3); background: rgba(157, 107, 138, 0.1); }
+    .card:hover { transform: translateY(-10px); box-shadow: 0 0 40px rgba(255, 122, 167, 0.6); }
+    .card.disabled { opacity: 0.3; cursor: not-allowed; }
+    .card.disabled:hover { transform: none; box-shadow: 0 0 20px rgba(255, 122, 167, 0.3); }
+    #fortune-box { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(43, 10, 20, 0.95); border: 2px solid #ff7aa7; border-radius: 20px; padding: 40px; max-width: 500px; text-align: center; display: none; z-index: 1000; box-shadow: 0 0 60px rgba(255, 122, 167, 0.4); }
+    #fortune-box.show { display: block; animation: slideIn 0.3s ease; }
+    @keyframes slideIn { from { opacity: 0; transform: translate(-50%, -40%); } to { opacity: 1; transform: translate(-50%, -50%); } }
+    .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); display: none; z-index: 999; }
+    .overlay.show { display: block; }
+    h2 { margin-top: 0; color: #ff8fb8; font-size: 24px; }
+    #fortune-text { font-size: 18px; color: #fff; margin: 20px 0; line-height: 1.6; min-height: 60px; display: flex; align-items: center; justify-content: center; }
+    button { background: linear-gradient(135deg, #ff7aa7, #ff2f75); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; margin: 10px 5px; }
+    button:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 47, 117, 0.5); }
+    canvas { display: none; }
   </style>
 </head>
 <body>
-  <div class="header">
-    <img src="logo.png" alt="Seismic Logo" class="logo" style="display:none;">
-    <h1>🔮 Seismic Fortune Cards 🔮</h1>
-  </div>
-
-  <div class="container">
-    <div class="cards-section">
-      <div class="cards-container" id="cardsContainer">
-        <!-- Cards will be generated here -->
-      </div>
-    </div>
-    
-    <div class="rules-sidebar">
-      <h3>How It Works</h3>
-      <ul class="rules-list">
-        <li>👉 <strong>Click a card</strong> - Select any of the 5 cards to reveal your fortune</li>
-        <li>✨ <strong>Random prediction</strong> - Each card shows a unique seismic fortune from 130+ possibilities</li>
-        <li>📢 <strong>Share results</strong> - Post your fortune on X (Twitter) with a branded image</li>
-        <li>🔄 <strong>Try again</strong> - Close the fortune and click any card for a new prediction</li>
-      </ul>
-      <h3 style="margin-top: 25px;">About Seismic</h3>
-      <ul class="rules-list">
-        <li>Seismic energy surrounds your digital journey. Each prediction carries cryptographic vibrations from the blockchain cosmos.</li>
-      </ul>
-    </div>
-  </div>
-
+  <h1>🔮 Seismic Fortune Cards 🔮</h1>
+  <div class="cards-container" id="cardsContainer"></div>
   <div class="overlay" id="overlay"></div>
   <div id="fortune-box">
     <h2>Your Fortune</h2>
-    <p id="fortune-text">🔮</p>
-    <button onclick="shareOnTwitter()">Share on 𝕏</button>
+    <p id="fortune-text"></p>
+    <button onclick="shareOnTwitter()">Share on X</button>
+    <button onclick="downloadImage()">Download Image</button>
   </div>
-
+  <canvas id="shareCanvas" width="800" height="400"></canvas>
   <script>
-    const fortunes = [
-      "Magnitude rises - your breakthrough is close.",
-      "Seismic energy surrounds you today.",
-      "A new opportunity will open faster than a TEE computation.",
-      "Your consistency is your superpower.",
-      "Prepare - a positive shift is coming.",
-      "Rocky watches over your journey.",
-      "Your next win will be bigger than expected.",
-      "Stay steady - progress is compounding.",
-      "Your intuition today is on point.",
-      "Someone will appreciate your work soon.",
-      "Trust the process - you're exactly where you need to be.",
-      "Your vision will become reality sooner than you think.",
-      "The waves of change are in your favor.",
-      "Seismic shifts create new opportunities.",
-      "Your timing is impeccable.",
-      "Diamond hands hold wisdom.",
-      "The foundation you're building will flourish.",
-      "Network effects multiply your impact.",
-      "Your next move is the right one.",
-      "Persistence breaks through barriers.",
-      "The cosmos aligns with your vision.",
-      "Your work echoes through the network.",
-      "Abundance flows to those who build.",
-      "The market rewards your patience.",
-      "Your edge becomes clearer each day.",
-      "Seismic confidence attracts seismic results.",
-      "The future remembers builders.",
-      "Your boldness will be rewarded.",
-      "The trend is your friend.",
-      "Your insight precedes the crowd.",
-      "Stability through volatility.",
-      "Adapt and thrive.",
-      "Your potential is limitless.",
-      "The seeds you plant grow exponentially.",
-      "Your authenticity is your strength.",
-      "The network believes in you.",
-      "Your resilience defines you.",
-      "Opportunity favors the prepared.",
-      "The best is yet to come.",
-      "Your journey inspires others."
-    ];
-
-    // Generate cards
+    const fortunes = ["Magnitude rises - your breakthrough is close.", "Seismic energy surrounds you today.", "A new opportunity will open faster than a TEE computation.", "Your consistency is your superpower.", "Prepare - a positive shift is coming.", "Your next win will be bigger than expected.", "Stay steady - progress is compounding.", "Your intuition today is on point.", "Someone will appreciate your work soon.", "Trust the process - you're exactly where you need to be.", "Your vision will become reality sooner than you think.", "The waves of change are in your favor.", "Seismic shifts create new opportunities.", "Your timing is impeccable.", "Diamond hands hold wisdom.", "The foundation you're building will flourish.", "Network effects multiply your impact.", "Your next move is the right one.", "Persistence breaks through barriers.", "The cosmos aligns with your vision."];
+    let cardSelected = false;
     function generateCards() {
       const container = document.getElementById('cardsContainer');
       for (let i = 1; i <= 5; i++) {
         const card = document.createElement('div');
         card.className = 'card';
-        card.innerHTML = `
-          <span class="card-number">${i}</span>
-          <span class="card-stone">🪨</span>
-        `;
-        card.onclick = () => revealFortune();
+        card.textContent = i;
+        card.onclick = () => { if (!cardSelected) revealFortune(card); };
         container.appendChild(card);
       }
     }
-
-    generateCards();
-
-    function revealFortune() {
+    function disableOtherCards(clickedCard) {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => { if (card !== clickedCard) card.classList.add('disabled'); });
+      cardSelected = true;
+    }
+    function revealFortune(card) {
       const box = document.getElementById('fortune-box');
       const overlay = document.getElementById('overlay');
       const text = document.getElementById('fortune-text');
@@ -332,19 +62,52 @@
       text.textContent = fortunes[randomIndex];
       box.classList.add('show');
       overlay.classList.add('show');
-      
-      // Close when clicking overlay
-      overlay.onclick = () => {
-        box.classList.remove('show');
-        overlay.classList.remove('show');
-      };
+      disableOtherCards(card);
+      overlay.onclick = () => { box.classList.remove('show'); overlay.classList.remove('show'); };
     }
-
+    function downloadImage() {
+      const canvas = document.getElementById('shareCanvas');
+      const ctx = canvas.getContext('2d');
+      const text = document.getElementById('fortune-text').textContent;
+      ctx.fillStyle = '#2b0a14';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#ff7aa7';
+      ctx.font = 'bold 40px Inter';
+      ctx.textAlign = 'center';
+      ctx.fillText('Seismic Fortune Cards', canvas.width / 2, 80);
+      ctx.fillStyle = '#fff';
+      ctx.font = '28px Inter';
+      const maxWidth = canvas.width - 80;
+      const lines = [];
+      let currentLine = '';
+      text.split(' ').forEach(word => {
+        if (ctx.measureText(currentLine + word).width > maxWidth) {
+          if (currentLine) lines.push(currentLine);
+          currentLine = word;
+        } else {
+          currentLine += (currentLine ? ' ' : '') + word;
+        }
+      });
+      if (currentLine) lines.push(currentLine);
+      let y = 180;
+      lines.forEach(line => { ctx.fillText(line, canvas.width / 2, y); y += 40; });
+      ctx.fillStyle = 'rgba(255, 122, 167, 0.3)';
+      ctx.font = '14px Inter';
+      ctx.textAlign = 'left';
+      ctx.fillText('By @SeismicSys', 20, canvas.height - 20);
+      ctx.textAlign = 'right';
+      ctx.fillText('Builder @AleksYastreb', canvas.width - 20, canvas.height - 20);
+      const link = document.createElement('a');
+      link.download = 'seismic-fortune.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
     function shareOnTwitter() {
       const text = document.getElementById('fortune-text').textContent;
-      const url = `https://twitter.com/intent/post?text=${encodeURIComponent(text + ' 🔮 #SeismicVibes')}`;
+      const url = `https://twitter.com/intent/post?text=${encodeURIComponent(text + ' 🔮 seismic.build')}`;
       window.open(url, '_blank');
     }
+    generateCards();
   </script>
 </body>
 </html>
