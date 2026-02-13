@@ -40,8 +40,7 @@ MagicBlock-predictions/
 
 ## 🔗 URL сайту
 
-**GitHub Pages**: `https://khersonskiy.github.io/MagicBlock-predictions/`
-
+**GitHub Pages**: `https://alekshawk.github.io/magicblock-fortune-cards/`
 ## 💡 Особливості
 
 ✅ **130+ унікальних передбачень** - без повторень  
