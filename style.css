@@ -10,7 +10,18 @@ body {
     flex-direction: column;
     min-height: 100vh;
     text-transform: lowercase;
-    overflow-x: hidden;
+    overflow-x: hidden; /* ховаємо горизонтальну прокрутку */
+    cursor: default; /* звичайний курсор */
+}
+
+/* --- Ефект магічних іскор --- */
+.magic-particle {
+    position: fixed;
+    border-radius: 50%;
+    background: #aa00ff; /* фіолетовий колір */
+    box-shadow: 0 0 10px #aa00ff, 0 0 20px #ffffff; /* світіння */
+    pointer-events: none; /* щоб не заважали клікати */
+    z-index: 9999;
 }
 
 /* --- анімація зірок на фоні --- */
@@ -58,7 +69,7 @@ body {
 }
 
 .header h1 {
-    text-transform: none; /* MagicBlock пишеться як треба */
+    text-transform: none; 
     letter-spacing: 1px;
     text-shadow: 0 0 20px rgba(170, 0, 255, 0.8);
     margin-bottom: 5px;
@@ -93,7 +104,6 @@ body {
 .card {
     width: 180px;
     height: 260px;
-    /* логотип на карті */
     background: url('images/card-logo.png') center/60px no-repeat, linear-gradient(135deg, #8b5cf6, #aa00ff);
     border-radius: 16px;
     cursor: pointer;
@@ -106,7 +116,6 @@ body {
 
 .card:hover {
     transform: translateY(-10px) scale(1.02);
-    /* сильне світіння при наведенні */
     box-shadow: 0 0 50px rgba(170, 0, 255, 1);
     border-color: rgba(255,255,255,0.5);
 }
@@ -139,19 +148,17 @@ body {
 }
 
 .how-box {
-    /* стильна неонова рамка */
     border: 2px solid #aa00ff; 
     border-radius: 16px;
     padding: 30px 40px;
     max-width: 600px;
     width: 90%;
     text-align: left;
-    background: rgba(10, 0, 20, 0.7); /* темний фон */
+    background: rgba(10, 0, 20, 0.7);
     box-shadow: 0 0 25px rgba(170, 0, 255, 0.2), inset 0 0 20px rgba(170, 0, 255, 0.1);
     position: relative;
 }
 
-/* декоративний елемент (блік на рамці) */
 .how-box::before {
     content: '';
     position: absolute;
