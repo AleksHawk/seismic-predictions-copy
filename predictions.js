@@ -314,16 +314,19 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight){
 // --- TWITTER SHARE ---
 function shareCard(){
     const shareText = 
-`Sometimes all it takes is one little sign to know you're on the right track.
-My Fortune Card told me something very accurate today:
+`There are no coincidences. 🔮
+I pulled a card and this is the sign I needed today:
 
 "${selectedText}"
 
-See what your card says:
+What message is waiting for you? 👇
 https://alekshawk.github.io/magicblock-fortune-cards/
 
-Creator @hawk made this with love for the @MagicBlock community`;
+built with 💜 by @hawk_tyt for @MagicBlock`;
 
+    // Формуємо посилання для твіта
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+    
+    // Відкриваємо вікно
     window.open(twitterUrl, '_blank');
 }
