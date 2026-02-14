@@ -108,16 +108,14 @@ const popup = document.getElementById("popup");
 const overlay = document.getElementById("overlay");
 const text = document.getElementById("predictionText");
 
-// генеруємо карти
+// Логіка карток
 for(let i=0; i<5; i++){
     const card = document.createElement("div");
     card.className = "card";
 
     card.onclick = () => {
-        // 1. запускаємо анімацію
         card.classList.add("flipping");
 
-        // 2. чекаємо 0.6 сек і показуємо результат
         setTimeout(() => {
             selectedText = predictions[Math.floor(Math.random() * predictions.length)];
             text.innerText = selectedText;
@@ -137,65 +135,50 @@ overlay.onclick = () => {
     overlay.style.display = "none";
 };
 
-// --- ФУНКЦІЯ ГЕНЕРАЦІЇ КАРТИНКИ (ЯК У SEISMIC) ---
+// --- ГЕНЕРАЦІЯ КАРТИНКИ ПО ШАБЛОНУ ---
 function downloadCard(){
     const canvas = document.createElement("canvas");
-    // розмір як для Twitter посту (ландшафтний)
+    // Розмір горизонтальний (як у Twitter)
     canvas.width = 1200;
     canvas.height = 675;
     const ctx = canvas.getContext("2d");
 
-    // 1. Фон (Градієнт MagicBlock)
-    const gradient = ctx.createLinearGradient(0, 0, 1200, 675);
-    gradient.addColorStop(0, "#2a0a4a"); // темно-фіолетовий
-    gradient.addColorStop(0.5, "#6a1b9a"); // середній
-    gradient.addColorStop(1, "#aa00ff"); // яскравий фіолетовий
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // 2. Рамка (біла тонка лінія)
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
-    ctx.lineWidth = 4;
-    ctx.strokeRect(30, 30, 1140, 615);
-
-    // 3. Заголовок зверху
-    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
-    ctx.font = "bold 40px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText("MagicBlock Fortune Cards", canvas.width/2, 100);
-
-    // 4. Текст передбачення по центру (великий і красивий)
-    ctx.fillStyle = "#ffffff";
-    // Використовуємо шрифт із засічками для стилю "передбачення"
-    ctx.font = "italic bold 60px Georgia"; 
+    // Завантажуємо твій шаблон
+    const template = new Image();
+    template.src = "images/template.png"; // Переконайся, що файл називається саме так!
     
-    // Функція переносу тексту, щоб він не вилазив за краї
-    wrapText(ctx, `"${selectedText}"`, canvas.width/2, 300, 1000, 80);
+    // ВАЖЛИВО: чекаємо поки картинка завантажиться, перш ніж малювати текст
+    template.onload = () => {
+        // 1. Малюємо твій шаблон як фон
+        ctx.drawImage(template, 0, 0, 1200, 675);
 
-    // 5. Футер зліва (MagicBlock)
-    ctx.font = "24px Arial";
-    ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
-    ctx.textAlign = "left";
-    ctx.fillText("For @MagicBlock", 60, 620);
+        // 2. Налаштування тексту
+        ctx.fillStyle = "#ffffff"; // Білий текст
+        // Тінь для тексту, щоб читався на будь-якому фоні
+        ctx.shadowColor = "rgba(0,0,0,0.8)"; 
+        ctx.shadowBlur = 10;
+        
+        // Шрифт: жирний, курсив, красивий
+        ctx.font = "italic bold 56px Georgia"; 
+        ctx.textAlign = "center";
+        
+        // 3. Малюємо текст по центру картинки (координати 600, 337 це центр 1200х675)
+        // Остання цифра (80) - це відступ між рядками
+        wrapText(ctx, `"${selectedText}"`, canvas.width/2, canvas.height/2, 1000, 80);
 
-    // 6. Футер справа (Твій нік)
-    ctx.textAlign = "right";
-    ctx.fillText("Creator @hawk", 1140, 620);
-
-    // 7. Скачування
-    const link = document.createElement("a");
-    link.download = "magicblock-fortune.png";
-    link.href = canvas.toDataURL();
-    link.click();
+        // 4. Скачування
+        const link = document.createElement("a");
+        link.download = "magicblock-fortune.png";
+        link.href = canvas.toDataURL();
+        link.click();
+    };
 }
 
-// Допоміжна функція для переносу тексту
 function wrapText(ctx, text, x, y, maxWidth, lineHeight){
     const words = text.split(" ");
     let line = "";
     let lines = [];
 
-    // розбиваємо на рядки
     for(let n=0; n<words.length; n++){
         const testLine = line + words[n] + " ";
         const metrics = ctx.measureText(testLine);
@@ -208,7 +191,7 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight){
     }
     lines.push(line);
 
-    // центруємо блок тексту по вертикалі
+    // Центрування блоку тексту по вертикалі
     let startY = y - ((lines.length - 1) * lineHeight) / 2;
 
     for(let k=0; k<lines.length; k++){
@@ -216,7 +199,7 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight){
     }
 }
 
-// --- ФУНКЦІЯ ШЕРИНГУ ТЕКСТУ (ДЛЯ TWITTER) ---
+// --- ВІДКРИТТЯ ТВІТЕРА ---
 function shareCard(){
     const shareText = 
 `Sometimes all it takes is one little sign to know you're on the right track.
@@ -229,13 +212,9 @@ https://alekshawk.github.io/magicblock-fortune-cards/
 
 Creator @hawk made this with love for the @MagicBlock community`;
 
-    navigator.clipboard.writeText(shareText);
+    // Створюємо посилання для Twitter
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
     
-    // Красиве повідомлення замість стандартного alert
-    const btn = document.querySelector("button[onclick='shareCard()']");
-    const originalText = btn.innerText;
-    btn.innerText = "copied! 🚀";
-    setTimeout(() => {
-        btn.innerText = originalText;
-    }, 2000);
+    // Відкриваємо нове вікно
+    window.open(twitterUrl, '_blank');
 }
