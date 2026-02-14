@@ -1,39 +1,40 @@
-const fortunes = [
-"Alpha is closer than you think",
-"Your next move unlocks hidden value",
-"Momentum is building around you",
-"A powerful opportunity is syncing",
-"Success is inevitable"
+const predictions = [
+"Your next block will change everything.",
+"A powerful collaboration is coming.",
+"Momentum is building around you.",
+"You are closer to breakthrough than you think.",
+"A new opportunity will appear soon."
 ];
 
-let selected = false;
+const cardsContainer = document.getElementById("cards");
+const popup = document.getElementById("popup");
+const overlay = document.getElementById("overlay");
+const text = document.getElementById("predictionText");
 
-function generateCards() {
-  const container = document.getElementById("cardsContainer");
-
-  for (let i = 1; i <= 5; i++) {
+for(let i=0;i<5;i++){
     const card = document.createElement("div");
-    card.className = "card";
-    card.textContent = i;
+    card.className="card";
 
     card.onclick = () => {
-      if (!selected) reveal(card);
+        const random = predictions[Math.floor(Math.random()*predictions.length)];
+        text.innerText = random;
+
+        popup.style.display="block";
+        overlay.style.display="block";
     };
 
-    container.appendChild(card);
-  }
+    cardsContainer.appendChild(card);
 }
 
-function reveal(card) {
-  selected = true;
+overlay.onclick = () => {
+    popup.style.display="none";
+    overlay.style.display="none";
+};
 
-  const text = document.getElementById("fortune-text");
-  const box = document.getElementById("fortune-box");
-
-  const random = Math.floor(Math.random() * fortunes.length);
-  text.textContent = fortunes[random];
-
-  box.classList.add("show");
+function downloadCard(){
+    alert("Download feature placeholder");
 }
 
-generateCards();
+function shareCard(){
+    alert("Share feature placeholder");
+}
