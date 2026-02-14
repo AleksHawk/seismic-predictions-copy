@@ -2,25 +2,41 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background: #0c0c0c;
+    /* анімований космічний фон */
+    background: linear-gradient(-45deg, #050505, #1a0b2e, #180030, #000000);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     color: white;
     text-align: center;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* розтягує сайт на весь екран */
-    text-transform: lowercase; /* весь текст маленькими літерами */
+    min-height: 100vh;
+    text-transform: lowercase; /* основний текст маленький */
 }
 
-/* обгортка для основного контенту, щоб притиснути футер */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 .main-wrapper {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
 .header {
     margin-top: 30px;
+}
+
+.header h1 {
+    /* дозволяємо великі літери для заголовка */
+    text-transform: none; 
+    letter-spacing: 1px;
+    text-shadow: 0 0 20px rgba(170, 0, 255, 0.6);
 }
 
 .logo {
@@ -31,64 +47,91 @@ body {
 .cards {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap; /* щоб картки переносились на мобільному */
+    flex-wrap: wrap;
     gap: 30px;
     margin-top: 40px;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     width: 100%;
+    max-width: 1200px;
 }
 
 .card {
     width: 180px;
     height: 260px;
-    background: linear-gradient(135deg, #8b5cf6, #aa00ff); /* додав твій фіолетовий */
+    /* ЛОГОТИП НА КАРТІ: переконайся, що файл називається card-logo.png */
+    background: url('images/card-logo.png') center/60px no-repeat, linear-gradient(135deg, #8b5cf6, #aa00ff);
     border-radius: 16px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
     box-shadow: 0 0 25px rgba(170, 0, 255, 0.4);
+    position: relative;
+    overflow: hidden;
 }
 
 .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 35px rgba(170, 0, 255, 0.8);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 0 45px rgba(170, 0, 255, 0.9);
 }
 
-/* стилізація блоку "як це працює" */
-.how {
-    margin: 40px 20px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.05); /* ледь помітний фон */
-    border-radius: 12px;
-    max-width: 500px;
-    border: 1px solid #333;
+/* анімація перевороту (активується через JS) */
+.card.flipping {
+    animation: flipOut 0.6s forwards;
+    pointer-events: none;
 }
 
-.how h2 {
-    color: #aa00ff;
-    margin-bottom: 15px;
-    margin-top: 0;
+@keyframes flipOut {
+    0% { transform: rotateY(0) scale(1); }
+    100% { transform: rotateY(180deg) scale(0.8); opacity: 0; }
 }
 
-.how-item {
-    margin: 10px 0;
-    opacity: 0.9;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-.how-item strong {
-    color: #fff;
-    font-weight: bold;
-}
-
-/* футер завжди знизу */
-.footer {
-    padding: 20px;
-    font-size: 13px;
-    opacity: 0.7;
-    background-color: #000;
+/* стилізація блоку "how it works" (як табличка) */
+.how-section {
     width: 100%;
-    box-sizing: border-box; /* щоб padding не ламав ширину */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.how-section h2 {
+    color: #e4e5e7;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-transform: none; 
+}
+
+.how-box {
+    border: 1px solid #aa00ff; /* фіолетова рамка */
+    border-radius: 12px;
+    padding: 25px 40px;
+    max-width: 600px;
+    width: 90%;
+    text-align: left; /* текст зліва */
+    background: rgba(10, 0, 20, 0.6); /* темний фон для читабельності */
+    box-shadow: 0 0 20px rgba(170, 0, 255, 0.15);
+}
+
+.how-box p {
+    margin: 12px 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #e4e5e7;
+}
+
+.highlight {
+    color: #aa00ff;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(170, 0, 255, 0.4);
+}
+
+/* футер */
+.footer {
+    padding: 30px 20px;
+    font-size: 14px;
+    color: #888;
+    background-color: rgba(0,0,0,0.5); /* напівпрозорий чорний */
+    width: 100%;
+    box-sizing: border-box;
     border-top: 1px solid #222;
 }
 
@@ -96,7 +139,6 @@ body {
     color: #aa00ff;
     text-decoration: none;
     font-weight: bold;
-    transition: 0.3s;
 }
 
 .footer a:hover {
@@ -104,7 +146,7 @@ body {
     text-shadow: 0 0 10px #aa00ff;
 }
 
-/* попап і оверлей */
+/* попап і оверлей з анімацією появи */
 .overlay {
     display: none;
     position: fixed;
@@ -112,9 +154,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px); /* розмиття фону */
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
     z-index: 10;
+    animation: fadeIn 0.3s;
 }
 
 .popup {
@@ -123,30 +166,16 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #1a1a1a;
-    padding: 30px;
-    border-radius: 15px;
-    width: 300px;
-    border: 1px solid #aa00ff;
-    box-shadow: 0 0 30px rgba(170, 0, 255, 0.3);
+    background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+    padding: 40px;
+    border-radius: 20px;
+    width: 320px;
+    border: 2px solid #aa00ff;
+    box-shadow: 0 0 50px rgba(170, 0, 255, 0.5);
     z-index: 20;
     text-align: center;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.buttons button {
-    margin: 10px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    background: #aa00ff;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    text-transform: lowercase;
-    transition: 0.2s;
-}
-
-.buttons button:hover {
-    background: #8800cc;
-    transform: translateY(-2px);
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@
